@@ -13,11 +13,38 @@ the function below should be the only one in this file.
 #include "split.h"
 
 /* Add a prototype for a helper function here if you need */
+void insertSorted(Node*& head, Node* newNode);
 
 void split(Node*& in, Node*& odds, Node*& evens)
 {
   /* Add code here */
-// WRITE YOUR CODE HERE
+  // base case
+  if(!in){
+    return;
+  }
+
+  Node* next = in->next;
+
+  in->next = nullptr;
+
+  if(in->value % 2 == 0){
+    insertSorted(evens, in);
+  } else {
+    insertSorted(odds, in);
+  }
+
+  split(next, odds, evens);
+
+  in = nullptr;
+
 }
 
 /* If you needed a helper function, write it here */
+void insertSorted(Node*& head, Node* newNode){
+  if(!head || head->value >= newNode->value){
+    newNode->next = head;
+    head = newNode;
+  } else{
+    insertSorted(head->next, newNode);
+  }
+}
